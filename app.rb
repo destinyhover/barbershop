@@ -7,12 +7,13 @@ require 'sqlite3'
 
 configure  do
 	$db = SQLite3::Database.new 'barbershop.db'
-	$db.execute 'CREATE TABLE "Users" (
+	$db.execute 'CREATE TABLE IF NOT EXISTS "Users" (
 	"Id"	INTEGER,
 	"Name"	TEXT,
 	"Phone"	TEXT,
 	"Dateststamp"	TEXT,
 	"Barber"	TEXT,
+	"Color" TEXT,
 	PRIMARY KEY("Id" AUTOINCREMENT)
 );				'
 
@@ -44,19 +45,14 @@ post '/visit' do
 	if @error !=""
 		return erb :visit
 	end
+
+	$db.execute 'insert into Users (Name, Phone, Dateststamp, Barber, Color) values (?,?,?,?,?)', [@name, @phone, @date, @barber, @color]
+
+
+
+erb "OK! User: #{@name} Phone: #{@phone} barber: #{@barber} date: #{@date} color: #{@color}"
 end
 
-
-
-
-
-	#f=File.open("./public/user.txt", "a")
-	#f.puts "User: #{@name} Phone: #{@phone} barber: #{@barber} date: #{@date} color: #{@color}"
-	#f.close
-
-
-
-#erb "OK! User: #{@name} Phone: #{@phone} barber: #{@barber} date: #{@date} color: #{@color}"
 
 
 
