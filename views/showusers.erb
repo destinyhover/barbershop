@@ -1,0 +1,5 @@
+<h1>List of users</h1>
+  <% @showusers.each do |user| %>
+    <li><%= user.join(', ') %></li>
+  <% end %>
+</ul>

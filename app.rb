@@ -32,6 +32,13 @@ get '/contacts' do
 	erb :contacts
 end
 
+get '/showusers' do
+	
+	@showusers = $db.execute 'select*from Users order by id desc --'
+	erb :showusers
+
+end
+
 post '/visit' do
 	@name = params[:name]
 	@date = params[:date]
