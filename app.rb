@@ -16,6 +16,12 @@ configure  do
 	"Color" TEXT,
 	PRIMARY KEY("Id" AUTOINCREMENT)
 );				'
+$db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
+	"Id"	INTEGER,
+	"Name"	TEXT,
+	"Phone"	TEXT,
+	PRIMARY KEY("Id" AUTOINCREMENT)
+);				'
 
 end
 
@@ -33,8 +39,8 @@ get '/contacts' do
 end
 
 get '/showusers' do
-	
-	@showusers = $db.execute 'select*from Users order by id desc --'
+	$db.results_as_hash = true
+	@showusers = $db.execute 'select*from Users order by id desc --' 
 	erb :showusers
 
 end

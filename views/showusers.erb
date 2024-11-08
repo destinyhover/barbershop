@@ -1,5 +1,25 @@
 <h1>List of users</h1>
+  
+  <table class="table">
+     <thead>
+ <tr>
+    	<th> Name</th>
+      <th> Phone</th>
+      <th> Date</th>
+      <th> Barber</th>
+      <th> Color</th>
+    </tr> 
+   </thead>
   <% @showusers.each do |user| %>
-    <li><%= user.join(', ') %></li>
-  <% end %>
-</ul>
+   <tbody>
+    <tr>
+    	<td> <%=user['Name']%></td>
+      <td> <%=user['Phone']%></td>
+      <td> <%=user['Dateststamp']%></td>
+      <td> <%=user['Barber']%></td>
+      <td style ="background-Color: <%=user['Color']%>"> <%=user['Color']%></td>
+    </tr> 
+    <% end %>
+  </tbody>
+
+</table>
