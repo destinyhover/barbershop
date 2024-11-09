@@ -53,12 +53,21 @@ get '/contacts' do
 end
 
 get '/showusers' do
-	$db.results_as_hash = true
-	@showusers = $db.execute 'select*from Users order by id desc --' 
-	erb :showusers
+	erb :admin
 
 end
 
+post '/admin' do
+	erb :admin
+	@login=params[:login]
+	@password=params[:password]
+	if @login =='admin'&&@password=='secret'
+
+	$db.results_as_hash = true
+	@showusers = $db.execute 'select*from Users order by id desc --' 
+	erb :showusers
+end
+end
 
 post '/visit' do
 	@name = params[:name]
