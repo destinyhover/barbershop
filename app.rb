@@ -35,7 +35,6 @@ $db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
 );				'
 
 seed_db $db, ['Walter White', 'Jessie Pinkman', 'Gus Fring', 'Mike Ermathraut']
-
 end
 
 get '/' do
@@ -45,6 +44,8 @@ get '/about' do
 	erb :about
 end
 get '/visit' do
+	$db.results_as_hash = true
+	@showbarbers = $db.execute 'select Name from Barbers' 
 	erb :visit
 end
 get '/contacts' do
@@ -58,12 +59,17 @@ get '/showusers' do
 
 end
 
+
 post '/visit' do
 	@name = params[:name]
 	@date = params[:date]
 	@phone = params[:phone]
 	@barber = params[:barber]
 	@color=params[:colorpicker]
+	$db.results_as_hash = true
+	@showbarbers = $db.execute 'select Name from Barbers' 
+
+	
 
 	hh={:name =>"введите имя", :date=>"введите дату", :phone =>"введите телефон" }
 
@@ -73,10 +79,8 @@ post '/visit' do
 	end
 
 	$db.execute 'insert into Users (Name, Phone, Dateststamp, Barber, Color) values (?,?,?,?,?)', [@name, @phone, @date, @barber, @color]
+	erb "OK! User: #{@name} Phone: #{@phone} barber: #{@barber} date: #{@date} color: #{@color}"
 
-
-
-erb "OK! User: #{@name} Phone: #{@phone} barber: #{@barber} date: #{@date} color: #{@color}"
 end
 
 

@@ -11,9 +11,11 @@
  				<input id="datetime" type="text" name="date" value="<%=@date%>" class="form-control" ><br><br>
  				Enter barber:
  				<select name="barber"  class="form-control">
-				  <option <%= @barber == "Jessie Pinkman" ? 'selected':"" %>>Jessie Pinkman</option>
-				  <option <%= @barber == "Walter White" ? 'selected':"" %>>Walter White</option>
-				  <option <%= @barber == "Gus Fring" ? 'selected':"" %> >Gus Fring</option>
+				  <% @showbarbers.each do |name| %>
+				  <option <%= @barber == name['Name'] ? 'selected':""%> > <%=name['Name']%> </option>
+				  <%end%>
+				 
+				  
 				</select><br>
  				Enter hair color:
 
