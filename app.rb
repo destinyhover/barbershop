@@ -33,7 +33,7 @@ $db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
 	
 	PRIMARY KEY("Id" AUTOINCREMENT)
 );				'
-
+$db.results_as_hash = true
 seed_db $db, ['Walter White', 'Jessie Pinkman', 'Gus Fring', 'Mike Ermathraut']
 end
 
@@ -44,7 +44,7 @@ get '/about' do
 	erb :about
 end
 get '/visit' do
-	$db.results_as_hash = true
+	
 	@showbarbers = $db.execute 'select Name from Barbers' 
 	erb :visit
 end
@@ -75,7 +75,7 @@ post '/visit' do
 	@phone = params[:phone]
 	@barber = params[:barber]
 	@color=params[:colorpicker]
-	$db.results_as_hash = true
+	
 	@showbarbers = $db.execute 'select Name from Barbers' 
 
 	
