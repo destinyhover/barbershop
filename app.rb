@@ -3,6 +3,7 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
+enable :sessions
 
 def is_barber_exists? db, params
 	db.execute('select * from Barbers where Name=?', [params]).length>0
@@ -53,21 +54,38 @@ get '/contacts' do
 end
 
 get '/showusers' do
-	erb :admin
+  # Проверяем, авторизован ли пользователь
+  if session[:logged_in]
+    @showusers = $db.execute 'SELECT * FROM Users ORDER BY id DESC'
+    erb :showusers
+  else
+    @error = "Please log in first."
+    redirect '/admin'
+  end
+end
 
+get '/admin' do
+  erb :admin
 end
 
 post '/admin' do
-	erb :admin
-	@login=params[:login]
-	@password=params[:password]
-	if @login =='admin'&&@password=='secret'
+  @login = params[:login]
+  @password = params[:password]
 
-	$db.results_as_hash = true
-	@showusers = $db.execute 'select*from Users order by id desc --' 
-	erb :showusers
+  # Проверка логина и пароля
+  if @login == 'admin' && @password == 'secret'
+    session[:logged_in] = true # Устанавливаем флаг авторизации в сессии
+    redirect '/showusers'
+  else
+    @error = "Wrong input"
+    erb :admin
+  end
 end
+get '/logout' do
+  session.clear # Очищаем сессию
+  redirect '/admin'
 end
+
 
 post '/visit' do
 	@name = params[:name]
