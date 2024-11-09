@@ -4,6 +4,17 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+def is_barber_exists? db, params
+	db.execute('select * from Barbers where Name=?', [params]).length>0
+end
+
+def seed_db db, params
+	params.each do |params|
+		if !is_barber_exists? db, params
+			db.execute('insert into Barbers (Name) VALUES(?)', [params])
+		end
+	end
+end
 
 configure  do
 	$db = SQLite3::Database.new 'barbershop.db'
@@ -19,9 +30,11 @@ configure  do
 $db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
 	"Id"	INTEGER,
 	"Name"	TEXT,
-	"Phone"	TEXT,
+	
 	PRIMARY KEY("Id" AUTOINCREMENT)
 );				'
+
+seed_db $db, ['Walter White', 'Jessie Pinkman', 'Gus Fring', 'Mike Ermathraut']
 
 end
 
