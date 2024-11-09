@@ -38,7 +38,7 @@ seed_db $db, ['Walter White', 'Jessie Pinkman', 'Gus Fring', 'Mike Ermathraut']
 end
 
 get '/' do
-	erb "Hello! Welcome to barbershop!"			
+	erb "<h1> Hello! Welcome to barbershop!</h1>"			
 end
 get '/about' do
 	erb :about
