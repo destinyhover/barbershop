@@ -1,1 +1,1 @@
-First simple Barbershop web-app.
+First simple try of site on ruby sinatra
